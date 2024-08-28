@@ -1,0 +1,45 @@
+/* styles/background.css */
+.backgroundImage {
+  background-image: url('images/login_bg_3.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-card {
+  border-bottom: 1px solid #f87307;
+}
+
+.login-div {
+  border-right: 1px solid #f87307;
+  border-left: 1px solid #f87307;
+  background-color: #ffffff;
+}
+  
+.login-card-head {
+  background-color: #f87307;
+  color: #ffffff;
+  border-radius: 5px 5px 0px 0px;
+  border-left: none;
+  border-right: none;
+}
+
+.btn-primary {
+  background-color: #f87307;
+  color: #ffffff;
+}
+
+
+/* Adjustments for tablets */
+@media (max-width: 768px) {
+  .backgroundImage {
+    background-position: top;
+  }
+}
+
+/* Adjustments for mobile phones */
+@media (max-width: 480px) {
+  .backgroundImage {
+    background-image: None;
+  }
+}
