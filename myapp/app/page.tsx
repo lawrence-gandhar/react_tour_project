@@ -6,6 +6,51 @@ import { useState } from "react";
 export default function Home() {
 
   const [action, setAction] = useState("Login")
+  const [username, setUsername] = useState("")
+  const [passwd, setPassword] = useState("")
+  const [confirm_passwd, setConfirmPassword] = useState("")
+
+  const signin = async () => {
+    alert("clicked")
+    console.log(username, passwd)
+
+    // let response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         username: username,
+    //         passwd: passwd
+    //     }),
+    //     headers: {
+    //         'Content-type': 'application/json'
+    //     }
+    // })
+
+    // response = await response.json()
+
+    // alert(JSON.stringify(response))
+  }
+
+
+  const signup = async () => {
+    if (passwd !== confirm_passwd){
+      alert("Password and Confirm Password should match")
+    }
+  } 
+
+  const validateConfirmPassword = () => {
+    console.log("validate")
+    if (confirm_passwd.trim().length == 0){
+      alert("confirm Password is required")
+    }else{
+      if (passwd !== confirm_passwd){
+        alert("Password and Confirm Password should match")
+      }
+    }
+  }
+
+
+
+
 
   return (
     <div className="backgroundImage h-screen">
@@ -21,7 +66,7 @@ export default function Home() {
           <form className="col-span-12 login-div" action="#">
             <div className="py-2 px-4 pt-4">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                <input type="email" name="email" id="email" 
+                <input value={username} onChange={e => {setUsername(e.target.value)}} type="email" name="email" id="email" 
                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg 
                 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
                   dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
@@ -30,12 +75,23 @@ export default function Home() {
             </div>
             <div className="py-2 px-4">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
+                <input value={passwd} onChange={e => {setPassword(e.target.value)}} type="password" 
+                name="password" id="password"
+                className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 
+                focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+                dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                dark:focus:border-blue-500" required/>
             </div>
             {action==="Sign Up"?
               <div className="py-2 px-4">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
-                  <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
+                  <input value={confirm_passwd} onChange={e => {setConfirmPassword(e.target.value)}} 
+                      onBlur={validateConfirmPassword} 
+                      type="password" name="confirm_password" id="confirm-password"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg 
+                      focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
+                      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                      dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
               </div>:<div></div>
             }
             {action==="Login"?
@@ -55,7 +111,7 @@ export default function Home() {
               {
                 action==="Sign Up"?
                 <button type="button" className="w-full btn-primary py-1 rounded">Sign Up</button>:
-                <button type="button" className="w-full btn-primary py-1 rounded" onClick={()=>{setAction("Login")}}>Sign in</button>
+                <button type="button" className="w-full btn-primary py-1 rounded" onClick={signin}>Sign in</button>
               }              
             </div>
             {
