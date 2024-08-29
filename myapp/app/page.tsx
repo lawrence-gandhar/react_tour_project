@@ -2,8 +2,11 @@
 import Image from "next/image";
 import '../styles/login_page.css';
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const router = useRouter()
 
   const [action, setAction] = useState("Login")
   const [username, setUsername] = useState("")
@@ -14,8 +17,6 @@ export default function Home() {
   const [authorized, setAuthorized] = useState(-1)
 
   const signin = async () => {
-    console.log(username, passwd, BACKEND_SERVER)
-
     let response = await fetch(BACKEND_SERVER+'api/token', {
         method: 'POST',
         body: JSON.stringify({
@@ -30,7 +31,7 @@ export default function Home() {
         setAuthorized(0)
         console.log(authorized)
       }else if(response.status===200){
-        setAuthorized(1)
+        router.push("/dashboard")
       }
     })
   }
