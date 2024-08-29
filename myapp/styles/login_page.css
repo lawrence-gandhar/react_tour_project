@@ -29,6 +29,12 @@
   color: #ffffff;
 }
 
+.error-div{
+  background-color: #f56767;
+  color:#ffffff;
+  font-size: 11px;
+}
+
 
 /* Adjustments for tablets */
 @media (max-width: 768px) {
