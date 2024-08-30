@@ -20,30 +20,38 @@ export default function Layout({
   const router = useRouter()
   const BACKEND_SERVER = "http://localhost:8000/"
 
-  const [autorized, isAuthorized] = useState(false)
+  const [authorized, isAuthorized] = useState(false)
+  const [token, setToken] = useState(null)
 
   useEffect(() => { (async () => {
-    await fetch(BACKEND_SERVER+'api/token', {
+    await fetch(BACKEND_SERVER+'api/token/verify', {
       method: 'POST',
       body: JSON.stringify({
-          username: "admin",
-          password: "admin"
+          token: localStorage.getItem('items'),
     }),
     headers: {
         'Content-type': 'application/json'
     }
     }).then(response=>{
       if(response.status===401){
+        setToken(null)
         router.push("/")
         return;
       }else if(response.status===200){
         isAuthorized(true)
+        const res = response.json().then((data)=>{
+          console.log(data)
+
+          localStorage.setItem('items', data.access);
+
+          setToken(data["access"])
+        })
       }
     })
   })()
 }, [router])
 
-  if ( autorized == false ){
+  if ( authorized == false ){
     return (
       <div>Loading...</div>
     )

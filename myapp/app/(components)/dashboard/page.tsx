@@ -1,11 +1,17 @@
-import type { Metadata } from "next";
+"use client"
 
-export const metadata: Metadata = {
-    title: "Dashboard :: MyTourDiary",
-    description: "Developed By Lawrence Gandhar",
-  };
+import MonthlyCalendarOffCanvas from "./calendar_offcanvas"
+import Button from 'react-bootstrap/Button';
+
+import {useState} from 'react'
 
 export default function Dashboard() {
+    const [showMonthlyCalender, setMonthlyCalendar] = useState(false);
+
+    const handleShow = () => {
+        setMonthlyCalendar(false);
+    }
+
     return (
         <main>
             <div className="flex px-2 py-2">
@@ -13,18 +19,13 @@ export default function Dashboard() {
                     Dashboard
                 </div>
             </div>
-            <div className="grid grid-rows-1 grid-flow-col gap-4 px-2 py-2">
-                <div className="card bg-white border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 ">
-                    <div className="grid grid-flow-row py-2 px-2 card-header">My Tour Plans</div>
-                    <div className="grid grid-flow-row h-60 py-2 px-2">
-                        hh
-                    </div>
-                </div>
-                <div className="card bg-white border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 ">
-                    <div className="grid grid-flow-row py-2 px-2 card-header">My Tour Plans</div>
-                    <div className="grid grid-flow-row h-60 py-2 px-2">
-                        hh
-                    </div>
+            <div className="grid grid-rows-1grid-flow-row gap-4 px-2 py-2">
+                <div className="grid grid-flow-row py-2 px-2 card-header">My Tour Plans</div>
+                <div className="grid grid-flow-row h-2/3 py-2 px-2 overflow-scroll">
+                    <Button variant="primary" onClick={() => setMonthlyCalendar(true)}>
+                        Toggle static offcanvas
+                    </Button>
+                    <MonthlyCalendarOffCanvas showMonthlyCalender={showMonthlyCalender} handleShow={handleShow}></MonthlyCalendarOffCanvas>
                 </div>
             </div>
         </main>

@@ -29,14 +29,15 @@ export default function Home() {
     }).then(response=>{
       if(response.status===401){
         setAuthorized(0)
-        console.log(authorized)
       }else if(response.status===200){
-        router.push("/dashboard")
+        const res = response.json().then((data)=>{
+          console.log(data)
+          router.push("/dashboard")
+        })
       }
     })
   }
   
-
   const signup = async () => {
     if (passwd !== confirm_passwd){
       alert("Password and Confirm Password should match")

@@ -27,3 +27,13 @@
     font-size: 14px;
     font-weight: bold;
 }
+
+.offcanvas-header{
+    padding: 5px 15px !important;
+    background-color: #ff5e00;
+}
+
+.offcanvas-title{
+    font-size: 15px !important;
+    color:#ffffff !important;
+}
