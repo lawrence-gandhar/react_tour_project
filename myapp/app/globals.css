@@ -19,6 +19,7 @@
 
 .card{
     border: 1px solid #bdbcbc;
+    border-radius: 0px !important;
 }
 
 .card-header{
@@ -37,3 +38,37 @@
     font-size: 15px !important;
     color:#ffffff !important;
 }
+
+button.btn-default{
+    width:fit-content;
+    padding: 5px 10px;
+    font-size: 12px !important;
+}
+
+.table>thead{
+    font-size: 12px;
+    text-align: center;
+}
+
+.table>tbody{
+    font-size: 11px;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.sub-header{
+    border-bottom:1px solid #5c5c5c !important;
+    line-height: 35px;
+    padding-bottom:0px !important;
+    height: 50px !important;
+}
+
+p{ margin-bottom: 0px !important;}
+
+.grid{
+    height:fit-content !important;
+}
+
+.mt-neg-20{margin-top: -20px;}
+.mt-neg-40{margin-top: -40px;}
+

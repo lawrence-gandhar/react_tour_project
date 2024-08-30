@@ -2,59 +2,39 @@
 
 import { Inter } from "next/font/google";
 import "../globals.css";
-
-import { useEffect, useState } from "react";
+import axios from 'axios'
+import {useState, useEffect} from 'react'
 import { useRouter } from "next/navigation";
 
 import Header from "../base/Header"
 import Footer from "../base/Footer";
 
+import { BACKEND_SERVER } from "../custom_constants";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function Layout({children}: Readonly<{children: React.ReactNode;}>) {
 
+  // JWT - Token validation
+  const [token, setToken] = useState("")
   const router = useRouter()
-  const BACKEND_SERVER = "http://localhost:8000/"
 
-  const [authorized, isAuthorized] = useState(false)
-  const [token, setToken] = useState(null)
+  useEffect(() => {
+      setToken(localStorage.getItem('items'));
+  }, []);
 
-  useEffect(() => { (async () => {
-    await fetch(BACKEND_SERVER+'api/token/verify', {
-      method: 'POST',
-      body: JSON.stringify({
-          token: localStorage.getItem('items'),
-    }),
-    headers: {
-        'Content-type': 'application/json'
-    }
-    }).then(response=>{
-      if(response.status===401){
-        setToken(null)
-        router.push("/")
-        return;
-      }else if(response.status===200){
-        isAuthorized(true)
-        const res = response.json().then((data)=>{
-          console.log(data)
-
-          localStorage.setItem('items', data.access);
-
-          setToken(data["access"])
-        })
-      }
+  if (token !==""){
+    axios.post(BACKEND_SERVER+"api/token/verify", {
+      token: token
     })
-  })()
-}, [router])
-
-  if ( authorized == false ){
-    return (
-      <div>Loading...</div>
-    )
+    .then(function (response) {
+      if(response.status != 200){
+        router.push("/")
+      } 
+    })
+    .catch(function (error) {
+      router.push("/")
+    });
   }
 
   return (

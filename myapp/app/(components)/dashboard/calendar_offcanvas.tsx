@@ -39,10 +39,10 @@ function MonthlyCalendarOffCanvas(props) {
 
   return (
     <>
-      <Offcanvas className="calendar_canvas" backdrop="static" show={props.showMonthlyCalender} onHide={props.handleShow}>
+      <Offcanvas className="calendar_canvas" placement="end" backdrop="static" show={props.showMonthlyCalender} onHide={props.handleShow}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            My Tours Plans & Travels This Month
+            Planned Tours & Travels This Month
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>

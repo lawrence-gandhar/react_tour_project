@@ -4,6 +4,8 @@ import '../styles/login_page.css';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import { BACKEND_SERVER } from "./custom_constants";
+
 export default function Home() {
 
   const router = useRouter()
@@ -12,8 +14,7 @@ export default function Home() {
   const [username, setUsername] = useState("")
   const [passwd, setPassword] = useState("")
   const [confirm_passwd, setConfirmPassword] = useState("")
-  const BACKEND_SERVER = "http://localhost:8000/"
-
+ 
   const [authorized, setAuthorized] = useState(-1)
 
   const signin = async () => {
@@ -31,7 +32,7 @@ export default function Home() {
         setAuthorized(0)
       }else if(response.status===200){
         const res = response.json().then((data)=>{
-          console.log(data)
+          localStorage.setItem('items', data.access)
           router.push("/dashboard")
         })
       }
