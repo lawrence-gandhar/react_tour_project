@@ -1,10 +1,19 @@
 "use client";
 import Image from "next/image";
 import '../styles/login_page.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 
 import { BACKEND_SERVER } from "./custom_constants";
+
+import AuthContext from "./context/context";
+
+function parseJwt(token) {
+  if (!token) { return; }
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+}
 
 export default function Home() {
 
@@ -14,8 +23,8 @@ export default function Home() {
   const [username, setUsername] = useState("")
   const [passwd, setPassword] = useState("")
   const [confirm_passwd, setConfirmPassword] = useState("")
- 
   const [authorized, setAuthorized] = useState(-1)
+  const {token, updateToken} = useContext(AuthContext);
 
   const signin = async () => {
     let response = await fetch(BACKEND_SERVER+'api/token', {
@@ -32,7 +41,14 @@ export default function Home() {
         setAuthorized(0)
       }else if(response.status===200){
         const res = response.json().then((data)=>{
-          localStorage.setItem('items', data.access)
+          let myToken = parseJwt(data.access)  
+          updateToken({
+            "token": data.access,
+            "username": myToken.username,
+            "user_id": myToken.user_id,
+            "first_name": myToken.first_name,
+            "last_name": myToken.last_name
+          })
           router.push("/dashboard")
         })
       }

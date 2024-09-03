@@ -1,11 +1,14 @@
-const Header = () => {
+"use client"
+import {useContext} from 'react'
+
+const Header = (props) => {
     return (
         <div className="flex py-2 px-2 navbar-div">
-            <div className="col-span-2 columns-sm-12">
-                MyTourDiary
+            <div className="col-2 columns-sm-12">
+                MyTourDiary 
             </div>
-            <div className="col-span-10 columns-sm-12">
-                MyTourDiary
+            <div className="col-10 columns-sm-12 text-right">
+                {/* {props.value.token.username} */}
             </div>
         </div>
     )

@@ -1,38 +1,44 @@
 "use client"
 
 import axios from 'axios'
-
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
-
-import {useState, useEffect} from 'react'
-
 import { BACKEND_SERVER } from '@/app/custom_constants';
 
-export default function TourPlans(props) {
+import {useState} from 'react'
+
+// const get_data = async (token:any) => {
+//     await axios.get(BACKEND_SERVER+"api/planned-tours",{headers: {'Authorization': `Bearer ${token}`}})
+//     .then(function (response) {
+//         if(response.status = 200){
+//             if (response.data.length > 0) {
+//                 return response.data
+//             }
+//         }
+//     })
+//     .catch(function (error) {});
+// }
+
+export default function TourPlans(props:any) {
     const token = props.token
 
-    const [plan_data, setPlanData] = useState([])
-    const [foundData, setFoundData] = useState(false)
+    const [dataFound, setDataFound] = useState(false)
+    const [records, setRecords] = useState([])
 
-    const get_data = async () => {
-        await axios.get(BACKEND_SERVER+"api/planned-tours",{headers: {'Authorization': `Bearer ${token}`}})
-        .then(function (response) {
-            if(response.status = 200){
-                console.log(response.data)
-                setFoundData(true)
+
+    const tour_plans = async () => { 
+        await axios.get(BACKEND_SERVER+"api/planned_tours", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response) => {
+            if(response.status === 200 && response.data.length == 0){
+                setDataFound(true)
+                setRecords(response.data)
             }
         })
-        .catch(function (error) {});
     }
 
-    get_data()
-
-    if (!foundData){
-        return (
-            <p>No Data Available</p>
-        )
-    }
+    console.log(records)
 
     return(
         <Table responsive bordered className="table-default">
@@ -48,24 +54,23 @@ export default function TourPlans(props) {
                 </tr>
             </thead>
             <tbody className="table-body">
-                <tr>
-                <td>1</td>
-                {Array.from({ length: 12 }).map((_, index) => (
-                    <td key={index}>Table cell {index}</td>
-                ))}
-                </tr>
-                <tr>
-                <td>2</td>
-                {Array.from({ length: 12 }).map((_, index) => (
-                    <td key={index}>Table cell {index}</td>
-                ))}
-                </tr>
-                <tr>
-                <td>3</td>
-                {Array.from({ length: 12 }).map((_, index) => (
-                    <td key={index}>Table cell {index}</td>
-                ))}
-                </tr>
+                {
+                    records.map((record) => {
+                        return(
+                            <tr key={record.id}>
+                                <td>{record.id}</td>
+                                <td>{record.source}</td>
+                                <td>{record.destination}</td>
+                                <td>{record.created_on}</td>
+                                <td>{record.plan_to_start_on}</td>
+                                <td>{record.planned_no_days}</td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        )
+                    })
+                }
             </tbody>
         </Table>
     )

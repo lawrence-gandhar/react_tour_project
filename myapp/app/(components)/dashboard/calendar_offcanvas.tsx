@@ -2,14 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Button from 'react-bootstrap/Button';
+
+
 import { DayPilot, DayPilotMonth } from "@daypilot/daypilot-lite-react";
 import "../../../styles/calendar.css"
 
-function MonthlyCalendarOffCanvas(props) {
+export default function MonthlyCalendarOffCanvas(props) {
   
   const [calendar, setCalendar] = useState(null);
   const [events, setEvents] = useState<{id: number;text: string;start: string;end: string;}[]>([]);
   const [startDate, setStartDate] = useState(DayPilot.Date.today());
+
+  const myToken = props.myToken
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const config = {
       eventHeight: 30,
@@ -33,13 +42,16 @@ function MonthlyCalendarOffCanvas(props) {
       {id: 5,text: "Event 4",start: "2024-08-11",end: "2024-08-21"},
   ]
 
-  useEffect(() => {
-      setEvents(eve);
-  }, []);
+  useEffect(()=>{
+    setEvents(eve)
+  }, [])
 
   return (
     <>
-      <Offcanvas className="calendar_canvas" placement="end" backdrop="static" show={props.showMonthlyCalender} onHide={props.handleShow}>
+      <Button className="float-right btn-default" variant="primary" onClick={handleShow}>
+          Show Calendar
+      </Button>
+      <Offcanvas className="calendar_canvas" placement="end" backdrop="static" show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
             Planned Tours & Travels This Month
@@ -57,5 +69,3 @@ function MonthlyCalendarOffCanvas(props) {
     </>
   );
 }
-
-export default MonthlyCalendarOffCanvas;

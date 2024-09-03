@@ -1,19 +1,30 @@
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
+"use client"
+
 import { Inter } from "next/font/google";
 import "./globals.css";
+import {createContext, useState} from 'react'
+import AuthContext from "./context/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "MyTourDiary",
-  description: "Developed By Lawrence Gandhar",
-};
+// export const metadata: Metadata = {
+//   title: "MyTourDiary",
+//   description: "Developed By Lawrence Gandhar",
+// };
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const [token, setToken] = useState({})
+
+  const updateToken = (value) => {
+    setToken(value)
+  }
+
   return (
     <html lang="en">
       <head>
@@ -23,7 +34,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
       ></link>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AuthContext.Provider value={{token, updateToken}}>
+        {children}
+        </AuthContext.Provider>
+      </body>
     </html>
   );
 }
